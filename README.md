@@ -1,12 +1,7 @@
-# Blueprint/Boilerplate For Python Projects
+# Coronavirus bot
 
-[![Build, Test and Lint Action](https://github.com/MartinHeinz/python-project-blueprint/workflows/Build,%20Test,%20Lint/badge.svg)](https://github.com/MartinHeinz/python-project-blueprint/workflows/Build,%20Test,%20Lint/badge.svg)
-[![Push Action](https://github.com/MartinHeinz/python-project-blueprint/workflows/Push/badge.svg)](https://github.com/https://github.com/MartinHeinz/python-project-blueprint/workflows/Push/badge.svg)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/05c44c881bc10a706cbc/test_coverage)](https://codeclimate.com/github/MartinHeinz/python-project-blueprint/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/05c44c881bc10a706cbc/maintainability)](https://codeclimate.com/github/MartinHeinz/python-project-blueprint/maintainability)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=MartinHeinz_python-project-blueprint&metric=alert_status)](https://sonarcloud.io/dashboard?id=MartinHeinz_python-project-blueprint)
 
-## Blog Posts - More Information About This Repo
+## Blog Posts - More Information About Python Project Blueprint
 
 You can find more information about this project/repository and how to use it in following blog post:
 
@@ -14,13 +9,6 @@ You can find more information about this project/repository and how to use it in
 - [Automating Every Aspect of Your Python Project](https://towardsdatascience.com/automating-every-aspect-of-your-python-project-6517336af9da)
 
 ## Quick Start
-To use this repository as starter for your project you can run `configure_project.sh` script, which sets up all variables and file names. This way you can avoid configuring and renaming things yourself:
-
-```shell
-./configure_project.sh MODULE="coolproject" REGISTRY="docker.pkg.github.com/martinheinz/repo-name"
-```
-
-## Running
 
 ### Using Python Interpreter
 ```shell
@@ -32,11 +20,10 @@ To use this repository as starter for your project you can run `configure_projec
 Development image:
 ```console
 ~ $ make build-dev
-~ $ docker images --filter "label=name=blueprint"
+~ $ docker images --filter "label=name=corobabot"
 REPOSITORY                                                             TAG                 IMAGE ID            CREATED             SIZE
-docker.pkg.github.com/martinheinz/python-project-blueprint/blueprint   3492a40-dirty       acf8d09acce4        28 seconds ago      967MB
+docker.pkg.github.com/rdg7739/coronavirus_bit/corobabot   3492a40-dirty       acf8d09acce4        28 seconds ago      967MB
 ~ $ docker run acf8d09acce4
-Hello World...
 ```
 
 Production (Distroless) image:
@@ -44,9 +31,8 @@ Production (Distroless) image:
 ~ $ make build-prod VERSION=0.0.5
 ~ $ docker images --filter "label=version=0.0.5"
 REPOSITORY                                                             TAG                 IMAGE ID            CREATED             SIZE
-docker.pkg.github.com/martinheinz/python-project-blueprint/blueprint   0.0.5               65e6690d9edd        5 seconds ago       86.1MB
+docker.pkg.github.com/rdg7739/coronavirus_bit/corobabot   0.0.5               65e6690d9edd        5 seconds ago       86.1MB
 ~ $ docker run 65e6690d9edd
-Hello World...
 ```
 
 ## Testing
@@ -60,7 +46,7 @@ Test are ran every time you build _dev_ or _prod_ image. You can also run tests 
 ## Pushing to GitHub Package Registry
 
 ```console
-~ $ docker login docker.pkg.github.com --username MartinHeinz
+~ $ docker login docker.pkg.github.com --username rdg7739
 Password: ...
 ...
 Login Succeeded
@@ -103,6 +89,8 @@ Token is needed for example for _GitHub Package Registry_. To create one:
     - _Value_: _value_
 
 ### Resources
+- [Python Project Blueprint](https://github.com/MartinHeinz/python-project-blueprint)
+- [COVID-19](https://github.com/pjt3591oo/covid-19)
 - <https://realpython.com/python-application-layouts/>
 - <https://dev.to/codemouse92/dead-simple-python-project-structure-and-imports-38c6>
 - <https://github.com/navdeep-G/samplemod/blob/master/setup.py>
