@@ -36,7 +36,6 @@ class CoronaBot:
 
         total = soup.select('.table_container thead th')
         columns = [str(column.text).replace(" ", "_") for  column in total ]
-        columns.remove("Cases_per_1M_people")
         result = {}
         for column in columns:
             result[column] = [column.replace("_", " ")]
@@ -44,17 +43,41 @@ class CoronaBot:
 
         table_rows = soup.select('.table_container tbody tr')
         
+        found_korea = False
         for row in table_rows:
             tds = row.select('td')
             idx = 0
             for column in columns:
-                result[column].append(tds[idx].text.strip())
+                temp = tds[idx].text.strip()
+                if "korea" in temp.lower():
+                    found_korea = True
+                result[column].append(temp)
                 idx += 1
             result['count'] += 1
             if result['count'] > self.DISPLAY_LIMIT+1:
                 break;
                 
-
+        if not found_korea:
+            for row in table_rows:
+                tds = row.select('td')
+                idx = 0
+                for column in columns:
+                    temp = tds[idx].text.strip()
+                    if "korea" in temp.lower():
+                        found_korea = True
+                        result[column].append(temp)
+                    else:
+                        break
+                    idx += 1
+                if not found_korea:
+                    continue
+                else:
+                    break
+        
+        result.pop('Cases_per_1M_people', None)
+        print(result)
+        columns.remove("Cases_per_1M_people")
+        print(columns)
         data = self.template(columns, result)
         print(data)
         self.send(data)
