@@ -6,4 +6,4 @@ def test_app(capsys, example_fixture):
     coronabot.CoronaBot.run()
     captured = capsys.readouterr()
     print(captured.out)
-    assert "<code>|Location     |Confirmed_cases|Cases_per_1M_people|Recovered|Deaths|" in captured.out
+    assert "<code>|       Location" in captured.out

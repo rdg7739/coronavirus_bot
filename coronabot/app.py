@@ -25,23 +25,25 @@ class CoronaBot:
     def template(self, columns, data):
         body = []
         for i in range(1, data['count']):
-            body.append([data[column][i] for column in columns])
-        return '<code>' + '\n'.join(self.print_table(body, columns, 80, 6)) + '</code>'
+            for column in columns:
+                temp = [column, data[column][i]]
+                body.append(temp)
+        return '<code>' + '\n'.join(self.print_table(body)) + '</code>'
     
     def getData(self, BASE_URL):
         res = rq.get(BASE_URL)
         soup = BeautifulSoup(res.content, 'html.parser')
 
         total = soup.select('.table_container thead th')
-        columns = [str(column.text).replace(" ", "_") for  column in total]
-
+        columns = [str(column.text).replace(" ", "_") for  column in total ]
+        columns.remove("Cases_per_1M_people")
         result = {}
         for column in columns:
             result[column] = [column.replace("_", " ")]
         result['count'] = 1
 
         table_rows = soup.select('.table_container tbody tr')
- 
+        
         for row in table_rows:
             tds = row.select('td')
             idx = 0
@@ -49,8 +51,9 @@ class CoronaBot:
                 result[column].append(tds[idx].text.strip())
                 idx += 1
             result['count'] += 1
-            if result['count'] > self.DISPLAY_LIMIT:
+            if result['count'] > self.DISPLAY_LIMIT+1:
                 break;
+                
 
         data = self.template(columns, result)
         print(data)
@@ -64,7 +67,7 @@ class CoronaBot:
 
         strlen = len(string)
         padlen = abs(length - strlen)
-        return string + (char * padlen)
+        return (char * padlen) + string 
    
     def print_table(self, lines, header=None, totalwidth=80, mincol=4, splitter=("|", "-", "+")):
         splitter, horiz, cross = splitter
@@ -158,18 +161,22 @@ class CoronaBot:
             divider += cross
             buffer.append(linebuffer)
             buffer.append(divider)
-
+            
+            
         for line in lines:
             linebuffer = ""
             col = 0
+            divider = ""
             for each in line:
                 tmp = each
                 if len(each) > width[col]:
                     tmp = each[0:width[col]-2] + ".."
-
                 linebuffer += splitter + self.pad(tmp, width[col])
+                divider += cross + horiz * width[col]
                 col += 1
             linebuffer += splitter
             buffer.append(linebuffer)
+            if "Deaths" in line or "Location" in line:
+                buffer.append(divider)
 
         return buffer
