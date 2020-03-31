@@ -10,6 +10,7 @@ class CoronaBot:
         self.CHAT_ID = os.environ.get('CHAT_ID', '')
         self.DISPLAY_LIMIT = int(os.environ.get('DISPLAY_LIMIT', '10'))
         self.bot = telegram.Bot(token=self.TELEGRAM_TOKEN)
+        self.PICK_MY_COUNTRY = os.environ.get('PICK_MY_COUNTRY', '')
         if not self.TELEGRAM_TOKEN or not self.CHAT_ID:
             raise Exception('Need TELEGRAM_TOKEN, CHAT_ID')
 
@@ -43,41 +44,37 @@ class CoronaBot:
 
         table_rows = soup.select('.table_container tbody tr')
         
-        found_korea = False
+        found_my_country = False
         for row in table_rows:
             tds = row.select('td')
             idx = 0
             for column in columns:
                 temp = tds[idx].text.strip()
-                if "korea" in temp.lower():
-                    found_korea = True
+                if self.PICK_MY_COUNTRY in temp.lower():
+                    found_my_country = True
                 result[column].append(temp)
                 idx += 1
             result['count'] += 1
             if result['count'] > self.DISPLAY_LIMIT+1:
                 break;
                 
-        if not found_korea:
+        if not found_my_country:
             for row in table_rows:
                 tds = row.select('td')
                 idx = 0
                 for column in columns:
                     temp = tds[idx].text.strip()
-                    if "korea" in temp.lower():
-                        found_korea = True
+                    if self.PICK_MY_COUNTRY in temp.lower():
+                        found_my_country = True
                         result[column].append(temp)
                     else:
                         break
                     idx += 1
-                if not found_korea:
+                if not found_my_country:
                     continue
                 else:
                     break
         
-        result.pop('Cases_per_1M_people', None)
-        print(result)
-        columns.remove("Cases_per_1M_people")
-        print(columns)
         data = self.template(columns, result)
         print(data)
         self.send(data)
