@@ -35,14 +35,14 @@ class CoronaBot:
         res = rq.get(BASE_URL)
         soup = BeautifulSoup(res.content, 'html.parser')
 
-        total = soup.select('.table_container thead th')
+        total = soup.select('table thead th')
         columns = [str(column.text).replace(" ", "_") for  column in total ]
         result = {}
         for column in columns:
             result[column] = [column.replace("_", " ")]
         result['count'] = 1
 
-        table_rows = soup.select('.table_container tbody tr')
+        table_rows = soup.select('table tbody tr')
         
         found_my_country = False
         for row in table_rows:
@@ -74,7 +74,10 @@ class CoronaBot:
                     continue
                 else:
                     break
-        
+        result.pop('Cases_per_1M_people', None)
+        print(result)
+        columns.remove("Cases_per_1M_people")
+        print(columns)
         data = self.template(columns, result)
         print(data)
         self.send(data)
