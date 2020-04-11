@@ -49,8 +49,10 @@ class CoronaBot:
             tds = row.select('td')
             idx = 0
             temp = tds[idx].text.strip()
+            print(temp)
             if self.PICK_MY_COUNTRY.strip().lower() in temp.lower():
                 found_my_country = True
+            print(f"found_my_country {found_my_country} {self.PICK_MY_COUNTRY.strip().lower()} temp: {temp.lower()}" )
             if result['count'] <= self.DISPLAY_LIMIT or found_my_country:
                 for column in columns:
                     temp = tds[idx].text.strip()
