@@ -68,6 +68,7 @@ class CoronaBot:
                         temp = tds[idx].text.strip()
                         result[column].append(temp)
                         idx += 1
+                    result['count'] += 1
                 if not found_my_country:
                     continue
                 else:
