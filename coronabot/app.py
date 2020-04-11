@@ -48,31 +48,18 @@ class CoronaBot:
         for row in table_rows:
             tds = row.select('td')
             idx = 0
-            for column in columns:
-                temp = tds[idx].text.strip()
-                if self.PICK_MY_COUNTRY.lower() in temp.lower():
-                    found_my_country = True
-                result[column].append(temp)
-                idx += 1
-            result['count'] += 1
-            if result['count'] > self.DISPLAY_LIMIT+1:
+            temp = tds[idx].text.strip()
+            if self.PICK_MY_COUNTRY.strip().lower() in temp.lower():
+                found_my_country = True
+            if result['count'] <= self.DISPLAY_LIMIT+1 or found_my_country
+                for column in columns:
+                    temp = tds[idx].text.strip()
+                    result[column].append(temp)
+                    idx += 1
+                result['count'] += 1
+            if result['count'] > self.DISPLAY_LIMIT+1 and found_my_country:
                 break;
-                
-        if not found_my_country:
-            for row in table_rows[self.DISPLAY_LIMIT:]:
-                tds = row.select('td')
-                idx = 0
-                temp = tds[idx].text.strip()
-                if self.PICK_MY_COUNTRY.lower() in temp.lower():
-                    for column in columns:
-                        temp = tds[idx].text.strip()
-                        result[column].append(temp)
-                        idx += 1
-                    result['count'] += 1
-                if not found_my_country:
-                    continue
-                else:
-                    break
+
         result.pop('Cases_per_1M_people', None)
         print(result)
         columns.remove("Cases_per_1M_people")
