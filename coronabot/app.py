@@ -25,7 +25,7 @@ class CoronaBot:
         
     def template(self, columns, data):
         body = []
-        for i in range(1, data['count']+1):
+        for i in range(1, data['count']):
             for column in columns:
                 temp = [column, data[column][i]]
                 body.append(temp)
@@ -49,7 +49,6 @@ class CoronaBot:
             tds = row.select('td')
             idx = 0
             temp = tds[idx].text.strip()
-            print(temp)
             if self.PICK_MY_COUNTRY.strip().lower() in temp.lower():
                 found_my_country = True
             print(f"found_my_country {found_my_country} {self.PICK_MY_COUNTRY.strip().lower()} temp: {temp.lower()}" )
