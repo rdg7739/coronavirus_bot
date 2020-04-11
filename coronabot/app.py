@@ -32,9 +32,13 @@ class CoronaBot:
         return '<code>' + '\n'.join(self.print_table(body)) + '</code>'
     
     def getData(self, BASE_URL):
-        res = rq.get(BASE_URL)
+        # Set headers
+        headers = rq.utils.default_headers()
+        headers.update({ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'})
+        res = rq.get(BASE_URL, headers)
         soup = BeautifulSoup(res.content, 'html.parser')
-
+        print(soup.prettify())
+        
         total = soup.select('table thead th')
         columns = [str(column.text).replace(" ", "_") for  column in total ]
         result = {}
@@ -42,8 +46,7 @@ class CoronaBot:
             result[column] = [column.replace("_", " ")]
         result['count'] = 1
 
-        table_tbody = soup.select('table tbody')
-        table_rows = table_tbody.select('tr')
+        table_rows = soup.select('table tbody tr')
         print(len(table_rows))
         found_my_country = False
         for row in table_rows:
