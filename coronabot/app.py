@@ -25,7 +25,7 @@ class CoronaBot:
         
     def template(self, columns, data):
         body = []
-        for i in range(1, data['count']):
+        for i in range(1, data['count']+1):
             for column in columns:
                 temp = [column, data[column][i]]
                 body.append(temp)
