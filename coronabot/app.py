@@ -50,7 +50,7 @@ class CoronaBot:
             idx = 0
             for column in columns:
                 temp = tds[idx].text.strip()
-                if self.PICK_MY_COUNTRY in temp.lower():
+                if self.PICK_MY_COUNTRY.lower() in temp.lower():
                     found_my_country = True
                 result[column].append(temp)
                 idx += 1
@@ -62,14 +62,12 @@ class CoronaBot:
             for row in table_rows[self.DISPLAY_LIMIT:]:
                 tds = row.select('td')
                 idx = 0
-                for column in columns:
-                    temp = tds[idx].text.strip()
-                    if self.PICK_MY_COUNTRY.lower() in temp.lower():
-                        found_my_country = True
+                temp = tds[idx].text.strip()
+                if self.PICK_MY_COUNTRY.lower() in temp.lower():
+                    for column in columns:
+                        temp = tds[idx].text.strip()
                         result[column].append(temp)
-                    else:
-                        break
-                    idx += 1
+                        idx += 1
                 if not found_my_country:
                     continue
                 else:
