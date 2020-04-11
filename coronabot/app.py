@@ -42,7 +42,9 @@ class CoronaBot:
             result[column] = [column.replace("_", " ")]
         result['count'] = 1
 
-        table_rows = soup.select('table tbody tr')
+        table_tbody = soup.select('table tbody')
+        table_rows = table_tbody.select('tr')
+        print(len(table_rows))
         found_my_country = False
         for row in table_rows:
             tds = row.select('td')
