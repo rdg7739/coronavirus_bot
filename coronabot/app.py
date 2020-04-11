@@ -43,7 +43,8 @@ class CoronaBot:
         result['count'] = 1
 
         table_rows = soup.select('table tbody tr')
-        
+        for row in table_rows:
+            print(row)
         found_my_country = False
         for row in table_rows:
             tds = row.select('td')
