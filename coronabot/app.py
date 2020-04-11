@@ -59,12 +59,12 @@ class CoronaBot:
                 break;
                 
         if not found_my_country:
-            for row in table_rows:
+            for row in table_rows[self.DISPLAY_LIMIT:]:
                 tds = row.select('td')
                 idx = 0
                 for column in columns:
                     temp = tds[idx].text.strip()
-                    if self.PICK_MY_COUNTRY in temp.lower():
+                    if self.PICK_MY_COUNTRY.lower() in temp.lower():
                         found_my_country = True
                         result[column].append(temp)
                     else:
