@@ -51,13 +51,13 @@ class CoronaBot:
             temp = tds[idx].text.strip()
             if self.PICK_MY_COUNTRY.strip().lower() in temp.lower():
                 found_my_country = True
-            if result['count'] <= self.DISPLAY_LIMIT+1 or found_my_country:
+            if result['count'] <= self.DISPLAY_LIMIT or found_my_country:
                 for column in columns:
                     temp = tds[idx].text.strip()
                     result[column].append(temp)
                     idx += 1
                 result['count'] += 1
-            if result['count'] > self.DISPLAY_LIMIT+1 and found_my_country:
+            if result['count'] > self.DISPLAY_LIMIT and found_my_country:
                 break;
 
         result.pop('Cases_per_1M_people', None)
