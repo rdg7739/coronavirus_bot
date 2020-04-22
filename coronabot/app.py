@@ -49,7 +49,7 @@ class CoronaBot:
         for row in table_rows:
             th = row.select('th')[0]
             if result['count'] <= self.DISPLAY_LIMIT:
-                location_str = tds[0].text.strip()
+                location_str = th[0].text.strip()
                 print(f"location_str: {location_str.lower()}" )
                 result[columns[0]].append(location_str)
             if result['count'] > self.DISPLAY_LIMIT:
