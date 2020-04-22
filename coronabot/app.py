@@ -56,7 +56,6 @@ class CoronaBot:
                 if self.PICK_MY_COUNTRY.strip().lower() in location_str.lower():
                     found_my_country = True
                 result[columns[0].append(location_str)
-                idx += 1
             if result['count'] > self.DISPLAY_LIMIT and found_my_country:
                 break;
             tds = row.select('td')
