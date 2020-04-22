@@ -51,7 +51,7 @@ class CoronaBot:
             if result['count'] <= self.DISPLAY_LIMIT:
                 location_str = tds[0].text.strip()
                 print(f"location_str: {location_str.lower()}" )
-                result[columns[0].append(location_str)
+                result[columns[0]].append(location_str)
             if result['count'] > self.DISPLAY_LIMIT:
                 break;
             tds = row.select('td')
