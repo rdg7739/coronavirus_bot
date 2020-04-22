@@ -55,8 +55,8 @@ class CoronaBot:
             if result['count'] > self.DISPLAY_LIMIT:
                 break;
             tds = row.select('td')
-            idx = 1
-            for idx, column in enumerate(columns):
+            idx = 0
+            for column in columns:
                 if column.lower() == "location": 
                     continue
                 temp = tds[idx].text.strip()
