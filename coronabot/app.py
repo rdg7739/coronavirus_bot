@@ -16,7 +16,7 @@ class CoronaBot:
 
     @staticmethod
     def run():
-        BASE_URL = "https://google.org/crisisresponse/covid19-map"
+        BASE_URL = "https://news.google.com/covid19/map?hl=en-US&gl=US&ceid=US:en"
         temp = CoronaBot()
         temp.getData(BASE_URL);
         
