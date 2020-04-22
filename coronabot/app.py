@@ -10,7 +10,6 @@ class CoronaBot:
         self.CHAT_ID = os.environ.get('CHAT_ID', '')
         self.DISPLAY_LIMIT = int(os.environ.get('DISPLAY_LIMIT', '10'))
         self.bot = telegram.Bot(token=self.TELEGRAM_TOKEN)
-        self.PICK_MY_COUNTRY = os.environ.get('PICK_MY_COUNTRY', '')
         if not self.TELEGRAM_TOKEN or not self.CHAT_ID:
             raise Exception('Need TELEGRAM_TOKEN, CHAT_ID')
 
@@ -47,20 +46,16 @@ class CoronaBot:
 
         table_rows = soup.select('table tbody tr')
         print(len(table_rows))
-        found_my_country = False
         for row in table_rows:
             th = row.select('th')[0]
-            print(f"found_my_country {found_my_country} {self.PICK_MY_COUNTRY.strip().lower()} temp: {temp.lower()}" )
-            if result['count'] <= self.DISPLAY_LIMIT or found_my_country:
+            if result['count'] <= self.DISPLAY_LIMIT:
                 location_str = tds[0].text.strip()
-                if self.PICK_MY_COUNTRY.strip().lower() in location_str.lower():
-                    found_my_country = True
+                print(f"location_str: {location_str.lower()}" )
                 result[columns[0].append(location_str)
-            if result['count'] > self.DISPLAY_LIMIT and found_my_country:
+            if result['count'] > self.DISPLAY_LIMIT:
                 break;
             tds = row.select('td')
             idx = 1
-            temp = tds[idx].text.strip()
             for idx, column in enumerate(columns):
                 if column.lower() == "location": 
                     continue
